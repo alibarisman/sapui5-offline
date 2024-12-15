@@ -4,11 +4,50 @@
 		<pages>
 			<Page title="Offline App" floatingFooter="true">
 				<headerContent>
-					<Button type="Critical" text="Unsynchronized Data ({ui>/UnsynchronizedCount})" icon="sap-icon://warning2"/>
+					<ToolbarSpacer/>
 					<ObjectStatus class="sapUiSmallMargin" text="{ui>/ConnectionStatuText}" icon="{ui>/ConnectionStatuIcon}" state="{ui>/ConnectionStatuState}"/>
 				</headerContent>
 				<content>
-					
+					<Table id="idRequestTable" inset="false" items="{ path: 'mock>/requests' }" class="sapUiResponsiveContentPadding" alternateRowColors="true">
+						<headerToolbar>
+							<OverflowToolbar>
+								<content>
+									<Title text="Data List ({=${mock>/requests}.length})" level="H2"/>
+									<ToolbarSpacer/>
+									<Button type="Critical" text="Unsynchronized ({ui>/UnsynchronizedCount})" icon="sap-icon://warning2"/>
+								</content>
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+							<Column>
+								<Text text="Material"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true">
+								<Text text="Description"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true">
+								<Text text="Price"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true">
+								<Text text="Stock"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true">
+								<Text text="Status"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem type="Active" highlight="{ path:'mock>send', formatter:'.formatter.stateFormat' }">
+								<cells>
+									<ObjectIdentifier title="{mock>inputPRAmount}"/>
+									<Text text="{mock>inputMaterialDefinition}"/>
+									<Text text="{mock>price}"/>
+									<Text text="{mock>inputUnit}"/>
+									<ObjectStatus text="{ path:'mock>send', formatter:'.formatter.stateFormatText' }"
+										state="{ path:'mock>send', formatter:'.formatter.stateFormat' }" icon="{ path:'mock>send', formatter:'.formatter.stateFormatIcon' }"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
 				</content>
 				<footer>
 					<OverflowToolbar>

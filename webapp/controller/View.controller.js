@@ -1,10 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-], function(Controller) {
+	"../model/formatter"
+], function(Controller, formatter) {
 	"use strict";
 
 	return Controller.extend("com.socar.OfflineApp.controller.View", {
-
+		formatter: formatter,
 		/* global Offline:true */
 		onInit: function() {
 			let uiModel = new sap.ui.model.json.JSONModel({

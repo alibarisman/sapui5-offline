@@ -64,6 +64,10 @@
 				"settings": {
 					"bundleName": "com.socar.OfflineApp.i18n.i18n"
 				}
+			},
+			"mock": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/mock.json"
 			}
 		},
 		"resources": {
