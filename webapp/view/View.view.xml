@@ -1,0 +1,22 @@
+<mvc:View controllerName="com.socar.OfflineApp.controller.View" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" xmlns="sap.m">
+	<App>
+		<pages>
+			<Page title="Offline App" floatingFooter="true">
+				<headerContent>
+					<Button type="Critical" text="Unsynchronized Data ({ui>/UnsynchronizedCount})" icon="sap-icon://warning2"/>
+					<ObjectStatus class="sapUiSmallMargin" text="{ui>/ConnectionStatuText}" icon="{ui>/ConnectionStatuIcon}" state="{ui>/ConnectionStatuState}"/>
+				</headerContent>
+				<content>
+					
+				</content>
+				<footer>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://synchronize" text="Synchronize / Send" tooltip="Synchronize / Send" type="Emphasized" press="onSaveJob"/>
+					</OverflowToolbar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

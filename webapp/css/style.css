@@ -1,0 +1,14 @@
+/* Enter your custom styles here */
+.sapMObjStatusIcon>.sapUiIcon {
+    font-size: 1.2rem;
+}
+
+.sapMObjStatus {
+    font-size: 1.1rem;
+    color: var(--sapNeutralTextColor);
+    display: inline-block;
+    overflow: visible;
+    min-height: 1rem;
+    vertical-align: top;
+    line-height: normal;
+}
