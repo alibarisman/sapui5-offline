@@ -15,6 +15,7 @@
 									<Title text="Data List ({=${mock>/requests}.length})" level="H2"/>
 									<ToolbarSpacer/>
 									<Button type="Critical" text="Unsynchronized ({ui>/UnsynchronizedCount})" icon="sap-icon://warning2"/>
+									<!--<Button type="Emphasized" text="Add Data" icon="sap-icon://add-coursebook" press="onAddData"/>-->
 								</content>
 							</OverflowToolbar>
 						</headerToolbar>
@@ -52,7 +53,7 @@
 				<footer>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
-						<Button icon="sap-icon://synchronize" text="Synchronize / Send" tooltip="Synchronize / Send" type="Emphasized" press="onSaveJob"/>
+						<Button icon="sap-icon://synchronize" text="Synchronize / Send" tooltip="Synchronize / Send" type="Emphasized" press="onSend"/>
 					</OverflowToolbar>
 				</footer>
 			</Page>
