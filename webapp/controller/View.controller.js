@@ -33,7 +33,7 @@ sap.ui.define([
 				}
 
 				uiModel.refresh();
-			}, 1500);
+			}, 2000);
 		},
 
 		openDatabase: function() {
