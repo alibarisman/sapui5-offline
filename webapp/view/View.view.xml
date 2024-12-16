@@ -12,10 +12,10 @@
 						<headerToolbar>
 							<OverflowToolbar>
 								<content>
-									<Title text="Data List ({=${mock>/requests}.length})" level="H2"/>
+									<Title text="Data List" level="H2"/>
 									<ToolbarSpacer/>
 									<Button type="Critical" text="Unsynchronized ({ui>/UnsynchronizedCount})" icon="sap-icon://warning2"/>
-									<!--<Button type="Emphasized" text="Add Data" icon="sap-icon://add-coursebook" press="onAddData"/>-->
+									<Button type="Emphasized" text="Add Data" icon="sap-icon://add-coursebook" press="onAddData"/>
 								</content>
 							</OverflowToolbar>
 						</headerToolbar>
@@ -37,14 +37,14 @@
 							</Column>
 						</columns>
 						<items>
-							<ColumnListItem type="Active" highlight="{ path:'mock>send', formatter:'.formatter.stateFormat' }">
+							<ColumnListItem type="Active" highlight="{ path:'mock>Status', formatter:'.formatter.stateFormat' }">
 								<cells>
-									<ObjectIdentifier title="{mock>inputPRAmount}"/>
-									<Text text="{mock>inputMaterialDefinition}"/>
-									<Text text="{mock>price}"/>
-									<Text text="{mock>inputUnit}"/>
-									<ObjectStatus text="{ path:'mock>send', formatter:'.formatter.stateFormatText' }"
-										state="{ path:'mock>send', formatter:'.formatter.stateFormat' }" icon="{ path:'mock>send', formatter:'.formatter.stateFormatIcon' }"/>
+									<ObjectIdentifier title="{mock>Material}"/>
+									<Text text="{mock>Description}"/>
+									<Text text="{mock>Price}"/>
+									<Text text="{mock>Stock}"/>
+									<ObjectStatus text="{ path:'mock>Status', formatter:'.formatter.stateFormatText' }"
+										state="{ path:'mock>Status', formatter:'.formatter.stateFormat' }" icon="{ path:'mock>Status', formatter:'.formatter.stateFormatIcon' }"/>
 								</cells>
 							</ColumnListItem>
 						</items>
@@ -53,7 +53,7 @@
 				<footer>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
-						<Button icon="sap-icon://synchronize" text="Synchronize / Send" tooltip="Synchronize / Send" type="Emphasized" press="onSend"/>
+						<Button id="synchronize" icon="sap-icon://synchronize" text="Synchronize / Send" tooltip="Synchronize / Send" type="Accept" press="onSynchronize"/>
 					</OverflowToolbar>
 				</footer>
 			</Page>

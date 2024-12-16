@@ -26,10 +26,12 @@ sap.ui.define([
 					uiModel.setProperty("/ConnectionStatuText", "Online");
 					uiModel.setProperty("/ConnectionStatuIcon", "sap-icon://sys-enter-2");
 					uiModel.setProperty("/ConnectionStatuState", "Success");
+					this.getView().byId("synchronize").setEnabled(true);
 				} else if (Offline.state === "down") {
 					uiModel.setProperty("/ConnectionStatuText", "Offline");
 					uiModel.setProperty("/ConnectionStatuIcon", "sap-icon://sys-cancel-2");
 					uiModel.setProperty("/ConnectionStatuState", "Error");
+					this.getView().byId("synchronize").setEnabled(false);
 				}
 
 				uiModel.refresh();
@@ -53,8 +55,8 @@ sap.ui.define([
 				request.onupgradeneeded = (event) => {
 					const db = event.target.result;
 					// Bir ObjectStore oluşturun
-					if (!db.objectStoreNames.contains("users")) {
-						db.createObjectStore("users", {
+					if (!db.objectStoreNames.contains("materials")) {
+						db.createObjectStore("materials", {
 							keyPath: "id",
 							autoIncrement: true
 						});
@@ -65,8 +67,8 @@ sap.ui.define([
 
 		addData: function(db, data) {
 			return new Promise((resolve, reject) => {
-				const transaction = db.transaction(["users"], "readwrite");
-				const objectStore = transaction.objectStore("users");
+				const transaction = db.transaction(["materials"], "readwrite");
+				const objectStore = transaction.objectStore("materials");
 
 				const request = objectStore.add(data);
 
@@ -83,25 +85,84 @@ sap.ui.define([
 		},
 
 		onAddData: function() {
+			let mock = this.getOwnerComponent().getModel("mock");
+			let ui = this.getView().getModel("ui");
+			let dataList = mock.getProperty("/requests");
+			let material = mock.getProperty("/requests")[mock.getProperty("/requests").length - 1].Material;
+			material = (Number(material) + 1).toString();
+
 			this.openDatabase().then((db) => {
 				// Eklemek istediğiniz veri
 				const data = {
-					Material: "100000020",
-					Description: "Material 20",
-					Price: 200,
+					Material: material,
+					Description: "Material " + material,
+					Price: "100.00",
 					Stock: 100,
-					Send: false 
+					Status: false
 				};
 
 				// addData fonksiyonuna db ve data değerlerini gönderin
 				this.addData(db, data)
 					.then(() => {
-						MessageToast.show("Veri başarıyla eklendi.");
+						MessageToast.show("Data added.");
+
+						dataList.push(data);
+
+						mock.setProperty("/requests", dataList);
+						mock.refresh();
+
+						ui.setProperty("/UnsynchronizedCount", ui.getProperty("/UnsynchronizedCount") + 1);
+						ui.refresh();
 					})
 					.catch((error) => {
 						MessageToast.show("Veri ekleme hatası:", error);
 					});
 			});
+		},
+
+		onSynchronize: function() {
+			let mock = this.getOwnerComponent().getModel("mock");
+			let ui = this.getView().getModel("ui");
+
+			for (let i = 0; i < mock.getProperty("/requests").length; i++) {
+				mock.getProperty("/requests")[i].Status = true;
+			}
+
+			mock.setProperty("/requests", mock.getProperty("/requests"));
+			mock.refresh();
+
+			ui.setProperty("/UnsynchronizedCount", 0);
+			ui.refresh();
+			
+			this.clearTable("OfflineDatabase", "materials");
+		},
+
+		clearTable: function(dbName, storeName) {
+			// Veritabanını aç
+			const request = indexedDB.open(dbName);
+
+			request.onsuccess = function(event) {
+				const db = event.target.result;
+
+				// Bir işlem başlat (readwrite modunda)
+				const transaction = db.transaction(storeName, "readwrite");
+				const objectStore = transaction.objectStore(storeName);
+
+				// Tablodaki tüm verileri temizle
+				const clearRequest = objectStore.clear();
+
+				clearRequest.onsuccess = function() {
+					console.log(`'${storeName}' tablosu başarıyla temizlendi.`);
+				};
+
+				clearRequest.onerror = function(event) {
+					console.error("Tablo temizleme hatası:", event.target.error);
+				};
+			};
+
+			request.onerror = function(event) {
+				console.error("Veritabanı açılırken hata oluştu:", event.target.error);
+			};
 		}
 	});
 });
